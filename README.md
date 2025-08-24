@@ -1,32 +1,40 @@
-## Code Explanation
 
-### 1. Importing Libraries
+# Sentiment Analysis and Hawkes Process Analysis
 
-The following libraries are imported at the beginning of the script:
+## Overview
 
-- **`requests`**: Used to send HTTP requests to fetch earthquake data.
-- **`lxml.html`**: Used to parse the HTML content from the fetched data.
-- **`datetime`**: For handling date and time conversions.
-- **`numpy` (`np`)**: For numerical computations.
-- **`matplotlib.pyplot` (`plt`)**: For plotting the data.
-- **`hawkeslib`**: For modeling and simulating the Hawkes process.
+This project is divided into two main parts: Sentiment Analysis and Hawkes Process Analysis. Both analyses aim to extract meaningful insights from a dataset containing text data, sentiment labels, timestamps, and retweet counts.
 
-### 2. Fetching and Parsing Earthquake Data
+### Sentiment Analysis
 
-The script fetches earthquake data from [Kandilli Observatory](http://www.koeri.boun.edu.tr/scripts/lst9.asp) using an HTTP GET request. The data is then parsed to extract relevant earthquake information.
+The goal of the Sentiment Analysis is to classify the sentiment of the text data into different categories (e.g., positive, negative, neutral). Here's a breakdown of what the process entails:
 
-### 3. Extracting Timestamps
+1. **Data Preprocessing**: 
+   - The text data is first cleaned and tokenized to make it suitable for machine learning models.
+   - A TF-IDF vectorizer is used to convert the text data into numerical features that can be fed into a machine learning model.
 
-The script extracts the timestamps of earthquake events specifically related to Istanbul and converts them to "hours since the first event".
+2. **Model Training**:
+   - A Naive Bayes classifier is trained on the TF-IDF features extracted from the text data. This model is particularly effective for text classification tasks.
 
-### 4. Plotting the Data
+3. **Evaluation**:
+   - The trained model is evaluated on a test set, and performance metrics such as precision, recall, F1-score, and a confusion matrix are generated to assess the accuracy of the sentiment predictions.
 
-A scatter plot of the earthquake events is generated. The x-axis represents time in hours since the first event.
+### Hawkes Process Analysis
 
-### 5. Fitting a Hawkes Process
+The Hawkes Process is a powerful statistical tool used to model events that occur over time. In this project, the Hawkes Process is applied to analyze the retweet activity over time based on the timestamps and retweet counts.
 
-The script fits a Univariate Exponential Hawkes Process (UVHP) to the data and simulates the number of events over a 24-hour period.
+1. **Data Preparation**:
+   - The timestamps are first converted into a numerical format that represents the time in seconds since the epoch.
+   - The retweet counts are treated as events occurring at the corresponding timestamps.
 
-### 6. Bayesian Inference with Hawkes Process
+2. **Modeling with Hawkes Process**:
+   - The Hawkes Process is modeled using a Sum of Exponential Kernels (`HawkesSumExpKern`). This approach allows the model to capture complex dynamics where past events can influence future events over multiple timescales.
+   - Multiple decay parameters are used in the model, each representing different timescales of influence. For instance, a smaller decay parameter might capture short-term excitement (e.g., a burst of retweets immediately after a tweet is posted), while a larger decay parameter might capture long-term influence (e.g., sustained retweet activity).
 
-The script performs Bayesian inference to estimate the posterior distribution of the Hawkes process parameters, providing insights into the uncertainty of these estimates.
+3. **Visualization**:
+   - The kernels estimated by the model are visualized to show how the retweet activity evolves over time and how past events influence future retweets.
+   - The norms of the kernels are also analyzed to understand the overall intensity of the retweet activity.
+
+## Conclusion
+
+By combining Sentiment Analysis with Hawkes Process modeling, this project provides a comprehensive understanding of both the sentiment trends in the text data and the temporal dynamics of retweet activity. The Sentiment Analysis offers insights into how the public feels about certain topics, while the Hawkes Process analysis reveals the temporal patterns and self-exciting nature of the retweet activity.
